@@ -1,3 +1,4 @@
+using RegionSelector.Model;
 using System;
 using System.IO;
 using System.Net;
@@ -22,30 +23,31 @@ public class WorkflowApiService : IWorkflowApiService
         _workflowApiUrl = apiUrl;
     }
 
-    public async Task UploadImageAsync(string imageFilePath)
+    public async Task UploadImageAsync(ScreenshotData data)
     {
-        if (!File.Exists(imageFilePath))
+        if (!File.Exists(data.ImageFilePath))
         {
-            throw new FileNotFoundException("Image file not found.", imageFilePath);
+            throw new FileNotFoundException("Image file not found.", data.ImageFilePath);
         }
 
         // Elsa 3.0 workflow accepting binary stream.
         // We will send it as a raw binary POST request.
-        using var fileStream = File.OpenRead(imageFilePath);
+        using var fileStream = File.OpenRead(data.ImageFilePath);
         using var streamContent = new StreamContent(fileStream);
 
         // You might need to adjust the Content-Type based on the explicit Elsa trigger requirement
         streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/png");
         try
         {
-            
+
         }
         catch (System.Exception)
         {
-            
+
             throw;
         }
-        var response = await _httpClient.PostAsync(_workflowApiUrl, streamContent);
+        var internalApiUrl = _workflowApiUrl + $"?x={data.X}&y={data.Y}&w={data.Width}&h={data.Height}";// ?x=100&y=100&w=200&h=200
+        var response = await _httpClient.PostAsync(internalApiUrl, streamContent);
 
         if (!response.IsSuccessStatusCode)
         {

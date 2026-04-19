@@ -3,12 +3,13 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using RegionSelector.Model;
+using RegionSelector.Services;
 using SharpHook;
 using SharpHook.Data;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using RegionSelector.Services;
 
 namespace RegionSelector;
 
@@ -116,9 +117,16 @@ public partial class App : Application
                 
                 var fileName = $"screenshot_full_{DateTime.Now:yyyyMMdd_HHmmss}.png";
                 var filePath = Path.Combine(folderPath, fileName);
-                
+                var data = new ScreenshotData
+                {
+                    X = x,
+                    Y = y,
+                    Height = height,
+                    Width = width
+
+                };
                 await _screenCaptureService.CaptureFullScreenAsync(filePath);
-                await _workflowApiService.UploadImageAsync(filePath);
+                await _workflowApiService.UploadImageAsync(data);
             }
             catch (Exception ex)
             {

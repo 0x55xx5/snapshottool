@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using RegionSelector.Services;
+using RegionSelector.Model;
 
 namespace RegionSelector;
 
@@ -114,7 +115,17 @@ public partial class MainWindow : Window
                 await Task.Delay(100);
 
                 await _screenCaptureService.CaptureRegionAsync(x, y, width, height, filePath);
-                await _workflowApiService.UploadImageAsync(filePath);
+                var data = new ScreenshotData
+                {
+                    X = x,
+                    Y= y,
+                    Height=height,
+                    Width=width,
+                    ImageFilePath= filePath
+
+                };
+
+                await _workflowApiService.UploadImageAsync(data);
             }
             catch (Exception ex)
             {
