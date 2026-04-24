@@ -19,7 +19,7 @@ public partial class App : Application
     private MainWindow? _mainWindow;
     private readonly IScreenCaptureService _screenCaptureService = ScreenCaptureFactory.CreateService();
     //將圖片傳入Elsa 3.0 Workflow API的服務實例，請替換為實際的URL
-    private readonly IWorkflowApiService _workflowApiService = new WorkflowApiService("https://localhost:7238/api/workflows/screenshot"); // Please replace with your actual Elsa Workflow URL
+    private readonly IWorkflowApiService _workflowApiService = new WorkflowApiService("https://localhost:7186/api/workflows/screenshot"); // Please replace with your actual Elsa Workflow URL
 
     public override void Initialize()
     {

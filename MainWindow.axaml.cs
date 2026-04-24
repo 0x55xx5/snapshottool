@@ -14,7 +14,7 @@ public partial class MainWindow : Window
     private Point _startPoint;
     private bool _isDragging;
     private readonly IScreenCaptureService _screenCaptureService = ScreenCaptureFactory.CreateService();
-    private readonly IWorkflowApiService _workflowApiService = new WorkflowApiService("https://localhost:7238/api/workflows/screenshot");
+    private readonly IWorkflowApiService _workflowApiService = new WorkflowApiService("https://localhost:7186/api/workflows/screenshot");
 
     public MainWindow()
     {
